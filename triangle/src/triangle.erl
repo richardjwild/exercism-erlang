@@ -6,20 +6,17 @@ kind(A, B, C) ->
   case validate(A, B, C) of
     positive_lengths -> {error, "all side lengths must be positive"};
     inequality -> {error, "side lengths violate triangle inequality"};
-    good -> count_different_sides(sets:size(sets:from_list([A, B, C])))
+    valid -> valid_triangle(sets:size(sets:from_list([A, B, C])))
   end.
-
-count_different_sides(3) -> scalene;
-count_different_sides(2) -> isosceles;
-count_different_sides(1) -> equilateral.
 
 validate(A, B, C) when ((A =< 0) or (B =< 0) or (C =< 0)) -> positive_lengths;
-validate(A, B, C) ->
-  SortedSides = lists:reverse(lists:sort([A, B, C])),
-  LargerSide = lists:nth(1, SortedSides),
-  SumOfSmallerTwoSides = lists:sum(lists:nthtail(1, SortedSides)),
-  if (SumOfSmallerTwoSides =< LargerSide) -> inequality;
-    true -> good
-  end.
+validate(A, B, C) -> check_inequality(lists:sort([A, B, C])).
+
+check_inequality([A, B, C]) when (C < (A + B)) -> valid;
+check_inequality([_, _, _]) -> inequality.
+
+valid_triangle(3) -> scalene;
+valid_triangle(2) -> isosceles;
+valid_triangle(1) -> equilateral.
 
 test_version() -> 1.
