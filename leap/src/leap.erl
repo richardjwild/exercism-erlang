@@ -2,12 +2,8 @@
 
 -export([leap_year/1, test_version/0]).
 
-
-leap_year(_Year) ->
-  if
-    (_Year rem 4 /= 0) -> false;
-    ((_Year rem 100 == 0) andalso (_Year rem 400 /= 0)) -> false;
-    true -> true
-  end.
+leap_year(Year) when (Year rem 4 /= 0) -> false;
+leap_year(Year) when ((Year rem 100 == 0) andalso (Year rem 400 /= 0)) -> false;
+leap_year(_) -> true.
 
 test_version() -> 4.
