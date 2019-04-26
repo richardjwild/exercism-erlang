@@ -6,6 +6,8 @@
 -include_lib("eunit/include/eunit.hrl").
 
 
+it_works_test() -> ?assert(true).
+
 sets_with_no_elements_are_empty_test() ->
     ?assert(custom_set:empty(custom_set:from_list([]))).
 
